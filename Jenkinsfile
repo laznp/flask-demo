@@ -1,8 +1,5 @@
 pipeline {
 	agent any
-	environment {
-		PROMOTE_PRODUCTION = false
-	}
 	options {
 		ansiColor('xterm')
 	}
@@ -30,11 +27,11 @@ pipeline {
 		stage("Proceed Deployment?") {
 			steps {
 				script {
-					// env.PROMOTE_PRODUCTION = input message: 'Deploy to production?', ok: 'Yes'
-					env.PROMOTE_PRODUCTION = input(message: 'Continue deploy Production?', ok: 'Yes', 
-						parameters: [booleanParam(defaultValue: true, 
-						name: 'Deploy Production')]
-					)
+					input message: 'Deploy to production?', ok: 'Yes'
+					// env.PROMOTE_PRODUCTION = input(message: 'Continue deploy Production?', ok: 'Yes', 
+					// 	parameters: [booleanParam(defaultValue: true, 
+					// 	name: 'Deploy Production')]
+					// )
 				}
 			}
 		}
