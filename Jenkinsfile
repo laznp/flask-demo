@@ -16,8 +16,10 @@ pipeline {
 		stage("Building Image and Push to Docker Hub") {
 			steps {
 				script {
-					def images = docker.build("laznp/flask-demo:0.${BUILD_NUMBER}")
-					images.push("0.${BUILD_NUMBER}")
+					docker.withRegistry('','dockerhub') { 
+						def images = docker.build("laznp/flask-demo:0.${BUILD_NUMBER}")
+						images.push("0.${BUILD_NUMBER}")
+					}
 				}
 				sh "docker rmi -f \$(docker images laznp/flask-demo -q)"
 			}
