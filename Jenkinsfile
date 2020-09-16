@@ -37,10 +37,10 @@ pipeline {
 		stage("Deploying To Production") {
 			steps {
 				script {
-					if (${env.PROMOTE_PRODUCTION} == "ok") {
+					if (env.PROMOTE_PRODUCTION == "ok") {
 						echo "Deploy"
 					} else {
-						setBuildResult('UNSTABLE')
+						setBuildResult('ABORTED')
 					}
 				}
 			}
