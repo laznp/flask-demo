@@ -33,7 +33,7 @@ pipeline {
 					// env.PROMOTE_PRODUCTION = input message: 'Deploy to production?', ok: 'Yes'
 					env.PROMOTE_PRODUCTION = input(message: 'Continue deploy Production?', ok: 'Yes', 
 						parameters: [booleanParam(defaultValue: true, 
-						description: 'Production Deployment', name: 'Yes')]
+						name: 'Deploy Production')]
 					)
 				}
 			}
@@ -41,7 +41,7 @@ pipeline {
 		stage("Deploying To Production") {
 			steps {
 				script {
-					if (env.PROMOTE_PRODUCTION == true) {
+					if ("${PROMOTE_PRODUCTION}" == true) {
 						echo "Deploy"
 					} else {
 						currentBuild.result = 'ABORTED'
