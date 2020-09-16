@@ -29,7 +29,9 @@ pipeline {
 		}
 		stage("Proceed Deployment?") {
 			steps {
-				env.PROMOTE_PRODUCTION = input message: 'Deploy to production?', ok: 'Yes'
+				script {
+					env.PROMOTE_PRODUCTION = input message: 'Deploy to production?', ok: 'Yes'
+				}
 			}
 		}
 		stage("Deploying To Production") {
