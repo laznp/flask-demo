@@ -41,11 +41,7 @@ pipeline {
 		stage("Deploying To Production") {
 			steps {
 				script {
-					if ("${PROMOTE_PRODUCTION}" == true) {
-						echo "Deploy"
-					} else {
-						currentBuild.result = 'ABORTED'
-					}
+					echo "Deploy"
 				}
 			}
 		}
