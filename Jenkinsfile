@@ -40,7 +40,7 @@ pipeline {
 					if (env.PROMOTE_PRODUCTION == "ok") {
 						echo "Deploy"
 					} else {
-						setBuildResult('ABORTED')
+						currentBuild = 'ABORTED'
 					}
 				}
 			}
