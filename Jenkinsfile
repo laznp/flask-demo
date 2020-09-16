@@ -31,14 +31,19 @@ pipeline {
 			steps {
 				script {
 					// env.PROMOTE_PRODUCTION = input message: 'Deploy to production?', ok: 'Yes'
-					env.PROMOTE_PRODUCTION = input id: 'CustomId', message: 'Deploy to production?', ok: 'Yes', parameters: [string(defaultValue: 'yes', description: '', name: 'Deploy Pord')]
+					env.PROMOTE_PRODUCTION = input message: 'Deploy to production?', ok: 'Yes', parameters: [[
+						$class: 'ChoiceParameterDefinition',
+						choices: ['no','yes'].join('\n'),
+						name: 'input',
+						description: 'Deploy?'
+					]]
 				}
 			}
 		}
 		stage("Deploying To Production") {
 			steps {
 				script {
-					if (env.PROMOTE_PRODUCTION == "no") {
+					if (env.PROMOTE_PRODUCTION == "yes") {
 						echo "Deploy"
 					} else {
 						currentBuild = 'ABORTED'
