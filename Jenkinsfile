@@ -29,13 +29,13 @@ pipeline {
 		}
 		stage("Proceed Deployment?") {
 			steps {
-				PROMOTE_PRODUCTION = input message: 'Deploy to production?', ok: 'Yes'
+				env.PROMOTE_PRODUCTION = input message: 'Deploy to production?', ok: 'Yes'
 			}
 		}
 		stage("Deploying To Production") {
 			steps {
 				script {
-					if (${PROMOTE_PRODUCTION} == "ok") {
+					if (${env.PROMOTE_PRODUCTION} == "ok") {
 						echo "Deploy"
 					} else {
 						setBuildResult('UNSTABLE')
