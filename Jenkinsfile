@@ -30,14 +30,15 @@ pipeline {
 		stage("Proceed Deployment?") {
 			steps {
 				script {
-					env.PROMOTE_PRODUCTION = input message: 'Deploy to production?', ok: 'Yes'
+					// env.PROMOTE_PRODUCTION = input message: 'Deploy to production?', ok: 'Yes'
+					env.PROMOTE_PRODUCTION = input id: 'CustomId', message: 'Deploy to production?', ok: 'Yes', parameters: [string(defaultValue: 'yes', description: '', name: 'Deploy Pord')]
 				}
 			}
 		}
 		stage("Deploying To Production") {
 			steps {
 				script {
-					if (env.PROMOTE_PRODUCTION == "ok") {
+					if (env.PROMOTE_PRODUCTION == "no") {
 						echo "Deploy"
 					} else {
 						currentBuild = 'ABORTED'
