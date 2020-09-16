@@ -28,18 +28,12 @@ pipeline {
 			steps {
 				script {
 					input message: 'Deploy to production?', ok: 'Yes'
-					// env.PROMOTE_PRODUCTION = input(message: 'Continue deploy Production?', ok: 'Yes', 
-					// 	parameters: [booleanParam(defaultValue: true, 
-					// 	name: 'Deploy Production')]
-					// )
 				}
 			}
 		}
 		stage("Deploying To Production") {
 			steps {
-				script {
-					echo "Deploy"
-				}
+				sh "ansible -m ping localhost"
 			}
 		}
 	}
