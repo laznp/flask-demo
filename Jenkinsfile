@@ -1,5 +1,8 @@
 pipeline {
 	agent any
+	environment {
+		PROMOTE_PRODUCTION = "no"
+	}
 	options {
 		ansiColor('xterm')
 	}
@@ -24,13 +27,21 @@ pipeline {
 				sh "docker rmi -f \$(docker images laznp/flask-demo -q)"
 			}
 		}
+		stage("Proceed Deployment?") {
+			steps {
+				PROMOTE_PRODUCTION = input message: 'Deploy to production?', ok: 'Yes'
+			}
+		}
+		stage("Deploying To Production") {
+			steps {
+				script {
+					if (${PROMOTE_PRODUCTION} == "ok") {
+						echo "Deploy"
+					} else {
+						setBuildResult('UNSTABLE')
+					}
+				}
+			}
+		}
 	}
-	// post {
-	// 	success {
-	// 		echo "Deploying Image to Server"
-	// 		script {
-	// 			sh "ansible-playbook -i inventory.yml deploy.yml"
-	// 		}
-	// 	}
-	// }
 }
