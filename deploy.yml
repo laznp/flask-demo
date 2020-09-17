@@ -1,0 +1,11 @@
+- hosts: demo-labs
+  become: yes
+  tasks:
+    - name: Deploy Apps
+      docker_container:
+        name: demo-labs
+        image: laznp/flask-demo:<tag_placeholder>
+        state: started
+        recreate: yes
+        ports:
+          - "127.0.0.1:5000:5000"

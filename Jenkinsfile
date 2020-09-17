@@ -7,9 +7,9 @@ pipeline {
 		stage('Unit Testing') {
 			steps {
 				sh """
-				echo "[+] Start Unit Testing [+]"
-				sleep 3
-				echo "[+] Done Unit Testing [+]"
+					echo "[+] Start Unit Testing [+]"
+					sleep 3
+					echo "[+] Done Unit Testing [+]"
 				"""
 			}
 		}
@@ -33,7 +33,8 @@ pipeline {
 		}
 		stage("Deploying To Production") {
 			steps {
-				sh "ansible -m ping localhost"
+				sh "sed -i 's|<tag_placeholder>|0.${BUILD_NUMBER}|g' deploy.yml "
+				sh "ansible-playbook -i inventory.yml deploy.yml"
 			}
 		}
 	}
