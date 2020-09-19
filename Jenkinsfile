@@ -4,16 +4,7 @@ pipeline {
 		ansiColor('xterm')
 	}
 	stages {
-		stage('Unit Testing') {
-			steps {
-				sh """
-					echo "[+] Start Unit Testing [+]"
-					sleep 3
-					echo "[+] Done Unit Testing [+]"
-				"""
-			}
-		}
-		stage("Building Image and Push to Docker Hub") {
+		stage("Build and Push Image") {
 			steps {
 				script {
 					docker.withRegistry('','dockerhub') { 
@@ -33,7 +24,7 @@ pipeline {
 		}
 		stage("Deploying To Production") {
 			steps {
-				sh "sed -i 's|<tag_placeholder>|0.${BUILD_NUMBER}|g' deploy.yml "
+				sh "sed -i 's|<tag_placeholder>|0.${BUILD_NUMBER}|g' deploy.yml"
 				sh "ansible-playbook -i inventory.yml deploy.yml"
 			}
 		}
